@@ -107,8 +107,8 @@ Feature: Automate TC for User Properties: Last Name
     Then I click on element with xpath "//button[@type='submit']"
     And I wait for 5 sec
     Examples:
-      | FName | LName         | Email            | GroupCode | Password | ConfirmPassword |
-      | Ivan  | '  Ivanov'    | ivanov@gmail.com | A007      | 12345    | 12345           |
-      | Ivan  | 'Ivanov  '    | ivanov@gmail.com | A007      | 12345    | 12345           |
-      | Ivan  | 'Iva  nov'    | ivanov@gmail.com | A007      | 12345    | 12345           |
+      | FName | LName         | Email            | GroupCode    | Password | ConfirmPassword |
+      | Ivan  | '  Ivanov'    | ivanov@gmail.com |    A007      | 12345    |    12345        |
+      | Ivan  | 'Ivanov  '    | ivanov@gmail.com |    A007      | 12345    |    12345        |
+      | Ivan  | 'Iva  nov'    | ivanov@gmail.com |    A007      | 12345    |    12345        |
 
