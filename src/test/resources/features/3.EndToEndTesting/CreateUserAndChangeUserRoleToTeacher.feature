@@ -1,10 +1,9 @@
-Feature: Automate TC for User Properties: Last Name
+Feature: Automate TC for End To End Testing: Change User Role from Student to Teacher
   Background: Register as a student
     Given I open url "http://local.school.portnov.com:4520/#/registration"
     And I wait for 3 sec
-
   @Test1
-  Scenario: Create a User with alphanumeric and special characters in Last Name
+  Scenario: Create a User with a Role of Student
     #TC: ASK-6 Alphanumerical & Sp char (Happy path)
     And I click on element with xpath "//input[@placeholder ='First Name']"
     Then I type "Ivan" into element with xpath "//input[@placeholder='First Name']"
@@ -20,6 +19,3 @@ Feature: Automate TC for User Properties: Last Name
     Then I type "12345" into element with xpath "//input[@placeholder='Confirm Password']"
     Then I click on element with xpath "//button[@type='submit']"
     And I wait for 5 sec
-
-    #at this moment I push it to Github
-
