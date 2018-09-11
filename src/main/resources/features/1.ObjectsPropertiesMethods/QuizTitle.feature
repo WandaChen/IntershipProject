@@ -35,6 +35,7 @@ Feature: Automate TC for Quiz - Title (ASK-565)
     And I wait for 5 sec
     Then element with xpath "//h4[contains(text(),'List of Quizzes')]" should be presented
     And I wait for 3 sec
+    
 
   @Test-BoundaryLimit
   Scenario Outline: Create a quiz title with boundary limit characters
