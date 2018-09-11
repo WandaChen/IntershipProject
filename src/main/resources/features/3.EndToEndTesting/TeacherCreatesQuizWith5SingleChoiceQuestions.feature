@@ -36,13 +36,19 @@ Feature: Automate TC "Teacher Creates Quiz with 5 Single - Choice questions" (AS
     Then I type "<Option2>" into element with xpath "<string>"
     And I wait for 5 sec
        #show correct response
-    And I click on element with xpath "<string>"
+    And I click on element "<Correct>" with xpath "<string>"
     And I wait for 2 sec
     Then I click on element with xpath "//*[contains(text(), 'add_circle')]"
     And I wait for 2 sec
-    | Question | Option1 | Option2 | Selected |
-    | What is a Defect? | Any flaw or imperfection in a software work product | without any issues| Option1 |
-    | What is a Test Scenario? | Identifying all the possible areas to be tested | specifice areas only
+      | Question                           | Option1                                                                  | Option2                         | Correct  |
+      | What is a Defect?                  | Any flaw or imperfection in a software work product                      | without any issues              | Option1  |
+      | What is a Test Scenario?           | Identifying all the possible areas to be tested                          | specifice areas only            | Option1  |
+      | What is Jira ?                     | bug-tracking, issue-tracking and project-management software application | See the errors only             | Option1  |
+      | What is Integration Level Testing? | Modules (or) Unit of code                                                | test planning                   | Option1  |
+      | What is API?                       | Application Program Interface                                            | Application Process Information | Option1  |
+
+
+
 
     Then I click on element with xpath "//span[contains(text(),'Save')]"
     And I wait for 5 sec
