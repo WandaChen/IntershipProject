@@ -5,6 +5,7 @@ Feature: Automate TC for User Properties: Group code
     #Test Set: ASK-40
 
 
+
   @Test1
   Scenario: Create a User with alphanumeric and special characters in the Group code
     #TC: ASK-42 Alphanumerical & Sp char (Happy path)
