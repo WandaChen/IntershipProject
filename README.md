@@ -33,6 +33,8 @@ Sofia created this project for study purposes.
     to better understand what you did on branch
 
 // 9. Type: "git merge master" to check that your changes didn’t broke your branch.
+    You will se "Already up to date" in terminal
+
 
 // 10. After you can push to github
     Type: "git push origin name_of_your_branch"
