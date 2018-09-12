@@ -100,7 +100,7 @@ Feature: Automate TC for User Properties: Group code
     Then I click on element with xpath "//input[@placeholder='Password *']"
 #    Then I open the pop-up menu using Right-Click
     And I wait for 3 sec
-  #  Then I cut "abcde" into element with xpath "//*[@placeholder='Password *']"
+    Then I cut "abcde" into element with xpath "//*[@placeholder='Password *']"
     And I wait for 3 sec
     Then element with xpath "//input[@placeholder='Password *']" should not be selected
     And I wait for 3 sec
