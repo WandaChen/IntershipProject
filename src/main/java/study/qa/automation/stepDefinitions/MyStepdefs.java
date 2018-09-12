@@ -87,9 +87,16 @@ public class MyStepdefs {
     }
 
     @Then("^I cut \"([^\"]*)\" into element with xpath \"([^\"]*)\"$")
-    public void iCutIntoElementWithXpath(String arg0, String arg1) throws Throwable {
+    public void iCutIntoElementWithXpath(String text, String xpath)  {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        WebElement key1 = getDriver().findElement(By.xpath(xpath));
+        key1.sendKeys(text);
+        System.out.println("*** " + key1 + " text ");
+        key1.sendKeys(Keys.CONTROL, "A");
+        System.out.println("*** " + key1 + " sent select key");
+        key1.sendKeys(Keys.CONTROL, "X");
+        System.out.println("I am trying to cut the password ");
+
     }
 
     @Then("^I copy \"([^\"]*)\" from element with xpath \"([^\"]*)\"$")
