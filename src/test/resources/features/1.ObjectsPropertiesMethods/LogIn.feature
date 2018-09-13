@@ -15,6 +15,7 @@ Feature: Automate TC for User Properties: Group code
     Then I click on element with xpath "//button[@type='submit']"
     And I wait for 3 sec
     Then I open url "http://local.school.portnov.com:4520/#/home"
+    And something
 
   @Test-RequiredField
   Scenario Outline: Missing one or more Required fields
