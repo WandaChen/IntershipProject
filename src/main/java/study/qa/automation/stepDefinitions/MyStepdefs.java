@@ -14,7 +14,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -86,17 +91,41 @@ public class MyStepdefs {
         assertThat(getDriver().findElement(By.xpath(xpath)).isSelected()).isFalse();
     }
 
+    @Then("^element with xpath \"([^\"]*)\" should be selected$")
+    public void elementWithXpathShouldbeSelected(String xpath) {
+        assertThat(getDriver().findElement(By.xpath(xpath)).isSelected()).isTrue();
+    }
+
+    @Then("^I scroll to the element with xpath \"([^\"]*)\" with offset (\\d+)$")
+    public void iScrollToTheElementWithXpathWithOffset(String xpath, int offset) throws Exception {
+        WebElement element = getDriver().findElement(By.xpath(xpath));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].scrollIntoView(true);", element);
+        executor.executeScript("window.scrollBy(0, " + offset + ");", element);
+        Thread.sleep(500);
+    }
+
     @Then("^I cut \"([^\"]*)\" into element with xpath \"([^\"]*)\"$")
     public void iCutIntoElementWithXpath(String text, String xpath)  {
         // Write code here that turns the phrase above into concrete actions
         WebElement key1 = getDriver().findElement(By.xpath(xpath));
         key1.sendKeys(text);
         System.out.println("*** " + key1 + " text ");
+
+        Actions oAction = new Actions(getDriver());
+        oAction.moveToElement(key1);
+        oAction.contextClick(key1).sendKeys(key1, Keys.ARROW_DOWN).sendKeys(key1, Keys.ARROW_DOWN).build().perform();
+
         key1.sendKeys(Keys.CONTROL, "A");
         System.out.println("*** " + key1 + " sent select key");
+        String clipboardInitial = getClipboardText();
+        System.out.println("Starting clipboard: " + clipboardInitial);
         key1.sendKeys(Keys.CONTROL, "X");
-        System.out.println("I am trying to cut the password ");
-
+//        key1.sendKeys(Keys.SHIFT, Keys.DELETE);
+        String clipboardCopy = getClipboardText();
+        System.out.println("Copy clipboard: " + clipboardCopy);
+        assertThat(clipboardInitial != clipboardCopy && !clipboardInitial.equals(clipboardCopy));
+        System.out.println("I am trying to check if CUT key is working");
     }
 
     @Then("^I copy \"([^\"]*)\" from element with xpath \"([^\"]*)\"$")
@@ -105,89 +134,61 @@ public class MyStepdefs {
         WebElement key1 = getDriver().findElement(By.xpath(xpath));
         key1.sendKeys(text);
         System.out.println("*** " + key1 + " text ");
+
+        // try to make right context menu pop up
+        Actions oAction = new Actions(getDriver());
+        oAction.moveToElement(key1);
+        oAction.contextClick(key1).sendKeys(key1, Keys.ARROW_DOWN).sendKeys(key1, Keys.ARROW_DOWN).build().perform();
+
         key1.sendKeys(Keys.CONTROL, "A");
         System.out.println("*** " + key1 + " sent select key");
+        String clipboardInitial = getClipboardText();
+        System.out.println("Starting clipboard: " + clipboardInitial);
         key1.sendKeys(Keys.CONTROL, "C");
-        System.out.println("key1.isEnabled() -- " + key1.isEnabled() + '\n');
+//        key1.sendKeys(Keys.SHIFT, Keys.INSERT);
+        String clipboardCopy = getClipboardText();
+        System.out.println("Copy clipboard: " + clipboardCopy);
+        assertThat(clipboardInitial != clipboardCopy && !clipboardInitial.equals(clipboardCopy));
+        System.out.println("I am trying to check if COPY key is working");
         System.out.println("key1.isSelected() -- " + key1.isSelected() + '\n');
     }
 
     @Then("^\"([^\"]*)\" should be disabled for in pop-up menu on element with xpath \"([^\"]*)\"$")
     public void shouldBeDisabledForInPopUpMenuOnElementWithXpath(String key, String xpath) throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        Actions oAction = new Actions(getDriver());
         WebElement key1 = getDriver().findElement(By.xpath(xpath));
         String type = key1.getAttribute("type");
         System.out.println("type=" + type);
+
+        Actions oAction = new Actions(getDriver());
         oAction.moveToElement(key1);
         oAction.contextClick(key1).sendKeys(key1, Keys.ARROW_DOWN).sendKeys(key1, Keys.ARROW_DOWN).build().perform();
 //        oAction.contextClick(key1).moveToElement().build().perform();
 
         key1.sendKeys(Keys.CONTROL, "A");
+        String clipboardInitial = getClipboardText();
+        System.out.println("Starting clipboard: " + clipboardInitial);
 //        key1.sendKeys(Keys.CONTROL, "C");
-        key1.sendKeys(Keys.SHIFT, Keys.INSERT);
-//        key1.sendKeys(Keys.CONTROL, "V");
         key1.sendKeys(Keys.CONTROL, Keys.INSERT);
+        String clipboardCopy = getClipboardText();
+        System.out.println("Copy clipboard: " + clipboardCopy);
+        assertThat(clipboardInitial != clipboardCopy && !clipboardInitial.equals(clipboardCopy));
+//        key1.sendKeys(Keys.CONTROL, "V");
+        key1.sendKeys(Keys.SHIFT, Keys.INSERT);
 
-        String stringWindowHandle = getDriver().getWindowHandle();
-        System.out.println("getWindowHandle()=" + stringWindowHandle);
-        Set<String> stringSet = getDriver().getWindowHandles();
-        System.out.println("getWindowHandles().size()=" + stringSet.size());
-        for (Iterator iter = ((Set) stringSet).iterator(); iter.hasNext(); ) {
-            String s = (String) iter.next();
-            System.out.println(s);
-        }
-//        List<WebElement> webElements = getDriver().findElements(By.name(".*"));
-//        List<WebElement> webElements = getDriver().findElements(By.xpath("//*"));
-//        List<WebElement> webElements = getDriver().findElements(By.cssSelector(".*"));
-//        List<WebElement> webElements = getDriver().findElements(By.tagName("li.*"));
-//        List<WebElement> webElements = getDriver().findElements(By.id(".*"));
-        List<WebElement> webElements = getDriver().findElements(By.linkText(".*"));
-//        List<WebElement> webElements = getDriver().findElements(By.partialLinkText(".*"));
-//        List<WebElement> webElements = getDriver().findElements(By.className(""));
-        System.out.println("findElements().size()=" + webElements.size());
-        for (Iterator iter = ((List) webElements).iterator(); iter.hasNext(); ) {
-            WebElement s = (WebElement) iter.next();
-            System.out.println("Enabled " + s.isEnabled() + " TagName " + s.getTagName() + " Text " + s.getText());
-        }
-
-        // this will perform right click
-//        WebElement elementOpen = getDriver().findElement(By.linkText(key));
-//        /*This will select menu after right click */
-//        assertThat(getDriver().findElement(By.linkText(key)).isEnabled()).isFalse();
-//        //elementOpen.click();
-//        throw new PendingException();
     }
 
-     @Then("^I copy \"([^\"]*)\" into element with xpath \"([^\"]*)\"$")
-     public void iCopyIntoElementWithXpath(String text, String xpath) throws
-            NoAlertPresentException,InterruptedException  {
-         WebElement key1 = getDriver().findElement(By.xpath(xpath));
-         key1.sendKeys(text);
-         System.out.println("*** " + key1 + " text ");
-         key1.sendKeys(Keys.CONTROL, "A");
-         System.out.println("*** " + key1 + " sent select key");
-         key1.sendKeys(Keys.CONTROL, "C");
-         System.out.println("key1.isEnabled() -- " + key1.isEnabled() + '\n');
-         System.out.println("key1.isSelected() -- " + key1.isSelected() + '\n');
+    String getClipboardText() {
+        String stringClipboard = null;
+        try {
+            stringClipboard = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+        } catch (HeadlessException ex) {
 
-        /*
-        if (!key1.isEnabled())
-            System.out.println("*** " + key1 + " Copy key is disabled");
-        else {
-            System.out.println("Warning! The Copy key is not disabled!");
-            // Switching to Alert
-            Alert alert = getDriver().switchTo().alert();
-            // Capturing alert message.
-            String alertMessage= getDriver().switchTo().alert().getText();
-            // Displaying alert message
-            System.out.println(alertMessage);
-            Thread.sleep(5000);
-            // Accepting alert
-            alert.accept();
+        } catch (UnsupportedFlavorException ex) {
+
+        } catch (IOException ex) {
+
         }
-    */
-     }
-
-
+        return stringClipboard;
+    }
 }
