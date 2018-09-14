@@ -95,7 +95,7 @@ Feature: Automate TC "Teacher Creates Quiz with 5 Single - Choice questions" (AS
     Then I type "Application Program Interface " into element with xpath "//*[contains(text(), 'Q5')]/../../..//*[@placeholder='Option 1*']"
     Then I type "Application Process Information" into element with xpath "//*[contains(text(), 'Q5')]/../../..//*[@placeholder='Option 2*']"
     And I wait for 3 sec
-       #show correc response
+       #show correct response
     And I click on element with xpath "//*[contains(text(), 'Q5')]/../../..//mat-radio-button[@class='mat-radio-button mat-accent']//div[@class='mat-radio-outer-circle']"
     And I wait for 2 sec
     # save quiz
